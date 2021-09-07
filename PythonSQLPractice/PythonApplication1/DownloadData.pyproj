@@ -5,7 +5,7 @@
     <ProjectGuid>52b7c936-2175-4386-8227-875104c80151</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>FidelityTradingStrategyBackTesting.py</StartupFile>
+    <StartupFile>GetFidelityHistoricalData.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -29,10 +29,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DownloadFTSE100Tickers.py" />
+    <Compile Include="DownloadMSCIData.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DownloadYahooData.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FidelityTradingStrategyBackTesting.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GetAllFamaFrenchPortfolios.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GetFidelityHistoricalData.py">

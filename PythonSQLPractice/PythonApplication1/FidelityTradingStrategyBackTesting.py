@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import statistics
+
 def Calculate3MonthReturn(data):
     returns=[data[i+1]/data[i]-1 for i in range(len(data)-1)]
     return sum(returns) / len(returns)
@@ -18,7 +19,8 @@ def CalculatePortfolioReturn(portfolio):
 df = pd.read_excel ('FidelityHistoricalData.xlsx')
 rollingwindow=4
 holdingperiod=3
-numOfFunds=5
+stopLoss=-0.03
+numOfFunds=1
 rows=len(df)
 columns=len(df.columns)
 fundList=[]
@@ -40,7 +42,7 @@ for i in range(rows-rollingwindow-holdingperiod):
     if i% holdingperiod == 0:
         twoperiodList=[rollingwindow+i,rollingwindow+i+holdingperiod]
         portfolio=df.iloc[twoperiodList,fundList[num]].values.tolist()
-        initialValue=initialValue*(1+CalculatePortfolioReturn(portfolio))
+        initialValue=initialValue*(1+max(stopLoss,CalculatePortfolioReturn(portfolio)))
         portfolioRet.append(initialValue)
         num=num+1
 

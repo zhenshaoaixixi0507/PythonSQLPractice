@@ -22,7 +22,7 @@ NamesList=data['Names']
 dictPrice={}
 dictDate={}
 endDate='2021-08-31'
-startDate='2011-07-31' #121 months for calculating 120 returns
+startDate='2001-01-31' #121 months for calculating 120 returns
 
 
 OutputNames=[]
@@ -45,11 +45,11 @@ for i in range(len(SecIdList)):
             print("Was a nice sleep, now let me continue...")
             continue
     price,date=GetHistoricalDataArray(data)
-    if len(price)==121:
+    if len(price)==248:
         dictPrice[NamesList[str(i)]]=price
         dictDate[NamesList[str(i)]]=date
         OutputNames.append(NamesList[str(i)])
 
 df = pd.DataFrame(dictPrice, index =dictDate[NamesList["0"]], columns =OutputNames) 
-df.to_excel("FidelityHistoricalData.xlsx") 
+df.to_excel("FidelityMonthlyData.xlsx") 
 print("Finished!")
