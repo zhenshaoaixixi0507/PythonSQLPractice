@@ -5,7 +5,7 @@
     <ProjectGuid>52b7c936-2175-4386-8227-875104c80151</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>GetMinMaxFidelityPrices.py</StartupFile>
+    <StartupFile>FidelityPCA.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -33,6 +33,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DownloadYahooData.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FidelityPCA.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FidelityTradingStrategyBackTesting.py">
