@@ -8,6 +8,8 @@ import json
 import os
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+import statsmodels.api as sm
+import statistics
 
 def GetTempDataArray(rng):
     final_list=[]
@@ -37,10 +39,35 @@ def SetRangeValues(rng,x):
         row[0].value=x[n]
         n=n+1
 
+def CalculateBetas(PortRet,x):
+    factors=[[0 for i in range(len(PortRet)+1)] for j in range(len(PortRet['0']))]
+    for k in range(len(PortRet)+1):
+        for kk in range(len(PortRet['0'])):
+            if k==0:
+                factors[kk][k]=1
+            else:
+                factors[kk][k]=PortRet[str(k-1)][kk]
+
+    columns = len(x[0])
+    expRet=[]
+    for i in range(columns):
+        tempRet=[x[j][i] for j in range(len(x))]
+        model = sm.OLS(tempRet, factors)
+        results = model.fit()
+        predictRet=results.predict()
+        #expRet.append(statistics.mean(predictRet))
+        expRet.append(predictRet[-1])
+    return expRet
+
+def WriteExpReturn(ws3,expRet,index1,index2):
+    rng=ws3['B'+str(index1):'TG'+str(index2)]
+    for i in range(len(expRet)):
+        rng[0][i].value=expRet[i]
 
 wb = load_workbook(filename='FidelityPCAAnalysis.xlsx',data_only=True)
 ws = wb['Return']
 ws2=wb['PCA']
+ws3=wb['ExpectedReturn']
 pca = PCA(n_components=10)
 
 for i in range(212):
@@ -53,7 +80,8 @@ for i in range(212):
     pca.fit_transform(x)
     weights=pca.components_
     PortRet=GetPCAPortfolioReturn(weights,x)
-
+    expRet=CalculateBetas(PortRet,x)
+    WriteExpReturn(ws3,expRet,index_start,index_start)
     SetRangeValues(ws2['B'+str(index_start):'B'+str(index_end)], PortRet['0'])
     SetRangeValues(ws2['C'+str(index_start):'C'+str(index_end)], PortRet['1'])
     SetRangeValues(ws2['D'+str(index_start):'D'+str(index_end)], PortRet['2'])
